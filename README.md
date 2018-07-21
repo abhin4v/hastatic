@@ -1,14 +1,18 @@
 # hastatic
 
+[![Docker Build Status](https://img.shields.io/docker/build/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/)
+![MicroBadger Size](https://img.shields.io/microbadger/image-size/abhin4v/hastatic.svg?style=flat-square)
+
 _hastatic_ is a tiny static web server for Docker.
 
 ## Features
 
-- A tiny web server, just 3MB in size.
+- A tiny web server, just 3.5MB in size.
 - Statically compiled binary with no dependencies.
 - Built for Docker.
 - Supports custom 404 file.
 - Supports custom index files for URLs ending with "/".
+- Takes care to not serve hidden files.
 - Adds caching headers automatically.
 - Does not support HTTPS. It is expected that you run it behind a reverse-proxy server with HTTPS support, like nginx.
 
