@@ -1,0 +1,34 @@
+-- This file has been generated from package.yaml by hpack version 0.28.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: e49204f2f26a2ed8552e95f4f543b1cb4148cc509790f5d550ab98b70a722323
+
+name:           hastatic
+version:        0.9.0
+description:    Please see the README on GitHub at <https://github.com/abhin4v/hastatic#readme>
+author:         Abhinav Sarkar
+maintainer:     abhinav@abhinavsarkar.net
+copyright:      2018 Abhinav Sarkar
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+extra-source-files:
+    README.md
+
+executable hastatic
+  main-is: Main.hs
+  other-modules:
+      Paths_hastatic
+  hs-source-dirs:
+      src
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2
+  build-depends:
+      base >=4.7 && <5
+    , http-types
+    , text
+    , wai
+    , wai-middleware-static
+    , warp
+  default-language: Haskell2010

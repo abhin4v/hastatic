@@ -1,0 +1,30 @@
+name:                hastatic
+version:             0.9.0
+license:             BSD3
+author:              "Abhinav Sarkar"
+maintainer:          "abhinav@abhinavsarkar.net"
+copyright:           "2018 Abhinav Sarkar"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/abhin4v/hastatic#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+executables:
+  hastatic:
+    main:                Main.hs
+    source-dirs:         src
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -O2
+    dependencies:
+    - wai
+    - warp
+    - http-types
+    - wai-middleware-static
+    - text
