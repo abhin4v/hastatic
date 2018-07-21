@@ -25,6 +25,7 @@ executables:
     dependencies:
     - wai
     - warp
+    - warp-tls
     - http-types
     - wai-middleware-static
     - text

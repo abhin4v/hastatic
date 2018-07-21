@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e49204f2f26a2ed8552e95f4f543b1cb4148cc509790f5d550ab98b70a722323
+-- hash: e7a5e0192bba9ed055c360b88189436d278d96883c36e66a4a17b70f134f4654
 
 name:           hastatic
 version:        0.9.0
@@ -31,4 +31,5 @@ executable hastatic
     , wai
     , wai-middleware-static
     , warp
+    , warp-tls
   default-language: Haskell2010
