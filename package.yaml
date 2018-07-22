@@ -29,3 +29,4 @@ executables:
     - http-types
     - wai-middleware-static
     - text
+    - bytestring

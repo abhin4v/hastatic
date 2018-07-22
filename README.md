@@ -1,6 +1,6 @@
 # hastatic
 
-[![Docker Build Status](https://img.shields.io/docker/build/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/) ![Docker Pulls](https://img.shields.io/docker/pulls/abhin4v/hastatic.svg?style=flat-square) ![MicroBadger Size](https://img.shields.io/microbadger/image-size/abhin4v/hastatic.svg?style=flat-square)
+[![Docker Build Status](https://img.shields.io/docker/build/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/) [![Docker Pulls](https://img.shields.io/docker/pulls/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/) [![MicroBadger Size](https://img.shields.io/microbadger/image-size/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/)
 
 _hastatic_ is a tiny static web server for Docker.
 
@@ -14,6 +14,7 @@ _hastatic_ is a tiny static web server for Docker.
 - Supports custom index files for URLs ending with "/".
 - Takes care to not serve hidden files.
 - Adds caching headers automatically.
+- Caches file descriptors and info for better performance.
 
 ## Usage
 
@@ -51,4 +52,4 @@ The Docker image supports these environment variable for configuration:
 
 ## Internals
 
-_hastatic_ is written in Haskell, just 60 lines of it. It uses the excellent [Warp](https://hackage.haskell.org/package/warp) server underneath with the [warp-tls](https://hackage.haskell.org/package/warp-tls) package for TLS support.
+_hastatic_ is written in Haskell, just 60 lines of it. It uses the excellent [Warp](https://hackage.haskell.org/package/warp) server underneath with the [warp-tls](https://hackage.haskell.org/package/warp-tls) package for HTTPS support.

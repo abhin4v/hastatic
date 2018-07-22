@@ -1,17 +1,26 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
+import qualified Data.ByteString.Char8 as C8
 import Data.Maybe (fromMaybe)
 import qualified Data.List as List
 import qualified Data.Text as T
+import Data.Version (showVersion)
 import Network.Wai
 import qualified Network.Wai.Handler.WarpTLS as TLS
 import Network.Wai.Middleware.Static
 import Network.HTTP.Types (status404)
-import Network.Wai.Handler.Warp (run, defaultSettings, setPort)
+import Network.Wai.Handler.Warp ( runSettings
+                                , defaultSettings
+                                , setPort
+                                , setFdCacheDuration
+                                , setFileInfoCacheDuration
+                                , setServerName
+                                )
 import System.Exit (die)
 import System.Environment (lookupEnv)
 import Text.Read (readMaybe)
+import Paths_hastatic (version)
 
 data TLS = Okay TLS.TLSSettings | Error String | None
 
@@ -56,18 +65,23 @@ application excludedPaths = do
 
 main :: IO ()
 main = do
-  mPort       <- lookupEnv "PORT"
-  let port    = fromMaybe 3000 (readMaybe =<< mPort)
-  tlsSettings <- getTLSSettings
+  mPort        <- lookupEnv "PORT"
+  let port     = fromMaybe 3000 (readMaybe =<< mPort)
+  tlsSettings  <- getTLSSettings
+  let settings = setPort port
+                 . setFdCacheDuration 10
+                 . setFileInfoCacheDuration 10
+                 . setServerName ("hastatic-" <> C8.pack (showVersion version))
+                 $ defaultSettings
 
   case tlsSettings of
     Okay tls  -> do
       app <- application [TLS.certFile tls, TLS.keyFile tls]
       putStrLn $ "Starting HTTPS server on port: " <> show port
-      TLS.runTLS tls (setPort port defaultSettings) app
+      TLS.runTLS tls settings app
     None      -> do
       app <- application []
       putStrLn $ "Starting HTTP server on port: " <> show port
-      run port app
+      runSettings settings app
     Error msg ->
       die $ "Error starting server: " <> msg
