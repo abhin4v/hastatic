@@ -2,13 +2,13 @@
 
 [![Docker Build Status](https://img.shields.io/docker/build/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/) [![Docker Pulls](https://img.shields.io/docker/pulls/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/) [![MicroBadger Size](https://img.shields.io/microbadger/image-size/abhin4v/hastatic.svg?style=flat-square)](https://hub.docker.com/r/abhin4v/hastatic/)
 
-_hastatic_ is a tiny static web server for Docker.
+_hastatic_ is a very small web server for serving static files from a Docker container.
 
 ## Features
 
-- A tiny web server, just 5 MB in size.
+- A lightweight web server, just 5 MB in size.
 - Statically compiled binary with no dependencies.
-- Built for Docker.
+- [Built for Docker](https://hub.docker.com/r/abhin4v/hastatic/).
 - Supports HTTPS.
 - Supports custom 404 file.
 - Supports custom index files for URLs ending with "/".
