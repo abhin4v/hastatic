@@ -14,6 +14,7 @@ _hastatic_ is a very small web server for serving static files from a Docker con
 - Supports custom index files for URLs ending with "/".
 - Takes care to not serve hidden files.
 - Adds caching headers automatically.
+- Adds security headers automatically.
 - Caches file descriptors and info for better performance.
 
 ## Usage

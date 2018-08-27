@@ -24,6 +24,14 @@ import Paths_hastatic (version)
 
 data TLS = Okay TLS.TLSSettings | Error String | None
 
+addSecureHeaders :: Middleware
+addSecureHeaders = modifyResponse $ mapResponseHeaders (++ secureHeaders)
+  where
+    secureHeaders = [ ("Referrer-Policy", "strict-origin-when-cross-origin")
+                    , ("X-Frame-Options", "SAMEORIGIN")
+                    , ("X-XSS-Protection", "1; mode=block")
+                    ]
+
 indexHTML :: T.Text -> Middleware
 indexHTML indexFile app req respond =
   let path = pathInfo req
@@ -55,6 +63,7 @@ application excludedPaths = do
   indexFile    <- T.pack . fromMaybe "index.html" <$> lookupEnv "IDX_FILE"
   cache        <- initCaching PublicStaticCaching
   return
+    . addSecureHeaders
     . indexHTML indexFile
     . staticPolicy' cache polcy
     . notFoundHandler
