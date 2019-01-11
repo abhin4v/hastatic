@@ -1,4 +1,4 @@
-FROM haskell:8.4.3 as builder
+FROM haskell:8.6.3 as builder
 WORKDIR /opt/hastatic
 ADD . .
 RUN stack install && strip /root/.local/bin/hastatic

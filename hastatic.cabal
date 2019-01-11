@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.28.2.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5fa75b100431a32f877dee2e76911b04d100a54f9562e0eb2f0500e9f6fded00
+-- hash: ba9f9972cbf781c5c6c1ad0f3553a49c517986eacf5908171f6618fbeab640ee
 
 name:           hastatic
 version:        0.9.0
@@ -13,7 +15,6 @@ copyright:      2018 Abhinav Sarkar
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 extra-source-files:
     README.md
 
