@@ -53,4 +53,4 @@ The Docker image supports these environment variable for configuration:
 
 ## Internals
 
-_hastatic_ is written in Haskell, just 60 lines of it. It uses the excellent [Warp](https://hackage.haskell.org/package/warp) server underneath with the [warp-tls](https://hackage.haskell.org/package/warp-tls) package for HTTPS support.
+_hastatic_ is written in Haskell, just [70 lines](https://github.com/abhin4v/hastatic/blob/master/src/Main.hs#L25) of it. It uses the excellent [Warp](https://hackage.haskell.org/package/warp) server underneath with the [warp-tls](https://hackage.haskell.org/package/warp-tls) package for HTTPS support.
