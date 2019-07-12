@@ -1,9 +1,9 @@
 name:                hastatic
-version:             0.9.0
+version:             1.0.0
 license:             BSD3
 author:              "Abhinav Sarkar"
 maintainer:          "abhinav@abhinavsarkar.net"
-copyright:           "2018 Abhinav Sarkar"
+copyright:           "2018-2019 Abhinav Sarkar"
 
 extra-source-files:
 - README.md
