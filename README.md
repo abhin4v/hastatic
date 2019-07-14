@@ -7,7 +7,6 @@ _hastatic_ is a very small web server for serving static files from a Docker con
 ## Features
 
 - A lightweight web server, just 5 MB in size.
-- Statically compiled binary with no dependencies.
 - [Built for Docker](https://hub.docker.com/r/abhin4v/hastatic/).
 - Supports HTTPS.
 - Supports custom 404 file.
