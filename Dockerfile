@@ -5,12 +5,18 @@ RUN apk add --no-cache upx \
     && cabal update
 
 COPY hastatic.cabal cabal.project ./
-RUN cabal configure -O2 --enable-executable-static \
+ARG TARGETARCH
+RUN arch="${TARGETARCH:-$(uname -m)}"; \
+    icf=",--icf=all"; \
+    case "$arch" in \
+      amd64|x86_64) icf="" ;; \
+    esac; \
+    cabal configure -O2 --enable-executable-static \
         --ghc-option=-fPIC \
         --ghc-option=-split-sections \
         --ghc-option=-optl=-static \
         --ghc-option=-optl=-pthread \
-        --ld-option=-Wl,--gc-sections,--build-id,--icf=all \
+        --ld-option="-Wl,--gc-sections,--build-id$icf" \
     && cabal build --only-dependencies
 
 COPY . .
