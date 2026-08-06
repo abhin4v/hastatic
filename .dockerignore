@@ -1,0 +1,4 @@
+.git
+dist-newstyle
+.DS_Store
+Dockerfile*

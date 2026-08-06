@@ -22,7 +22,7 @@ import System.Environment (lookupEnv)
 import Text.Read (readMaybe)
 import Paths_hastatic (version)
 
-data TLS = Okay TLS.TLSSettings | Error String | None
+data TLS = Okay FilePath FilePath | Error String | None
 
 addSecureHeaders :: Middleware
 addSecureHeaders = modifyResponse $ mapResponseHeaders (++ secureHeaders)
@@ -54,7 +54,7 @@ getTLSSettings = do
 
   case (tlsCertFile, tlsKeyFile) of
     (Nothing, Nothing)    -> return None
-    (Just cert, Just key) -> return $ Okay $ TLS.tlsSettings cert key
+    (Just cert, Just key) -> return $ Okay cert key
     _                     -> return $ Error "Certificate file or Key file is missing"
 
 application :: [FilePath] -> IO Application
@@ -65,7 +65,7 @@ application excludedPaths = do
   return
     . addSecureHeaders
     . indexHTML indexFile
-    . staticPolicy' cache polcy
+    . staticPolicyWithOptions (defaultOptions {cacheContainer = cache}) polcy
     . notFoundHandler
     $ notFoundFile
   where
@@ -84,10 +84,10 @@ main = do
                  $ defaultSettings
 
   case tlsSettings of
-    Okay tls  -> do
-      app <- application [TLS.certFile tls, TLS.keyFile tls]
+    Okay certFile keyFile -> do
+      app <- application [certFile, keyFile]
       putStrLn $ "Starting HTTPS server on port: " <> show port
-      TLS.runTLS tls settings app
+      TLS.runTLS (TLS.tlsSettings certFile keyFile) settings app
     None      -> do
       app <- application []
       putStrLn $ "Starting HTTP server on port: " <> show port
