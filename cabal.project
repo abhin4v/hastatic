@@ -18,3 +18,13 @@ write-ghc-environment-files: always
 -- Define -O0 by default so that all dev processes are faster.
 -- This also affects HLS which will pick up on this (otherwise it'll use -O1)
 optimization: False
+
+constraints:
+  cryptonite < 0,
+  memory < 0,
+  crypto-pubkey-types < 0,
+  asn1-types < 0,
+  asn1-encoding < 0,
+  asn1-parse < 0,
+  hourglass < 0,
+  pem < 0
