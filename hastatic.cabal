@@ -1,17 +1,19 @@
-cabal-version:       3.0
+cabal-version:      3.0
+name:               hastatic
+version:            0.9.0
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Abhinav Sarkar
+maintainer:         abhinav@abhinavsarkar.net
+copyright:          2018-2026 Abhinav Sarkar
+category:           Web
+build-type:         Simple
+extra-source-files:
+  CHANGELOG.md
+  README.md
 
-name:                hastatic
-version:             0.9.0
-license:             BSD-3-Clause
-license-file:        LICENSE
-author:              Abhinav Sarkar
-maintainer:          abhinav@abhinavsarkar.net
-copyright:           2018-2026 Abhinav Sarkar
-category:            Web
-build-type:          Simple
-extra-source-files:  README.md
-
-description:         Please see the README on GitHub at <https://github.com/abhin4v/hastatic#readme>
+description:
+  Please see the README on GitHub at <https://github.com/abhin4v/hastatic#readme>
 
 executable hastatic
   main-is:          Main.hs
@@ -20,11 +22,13 @@ executable hastatic
   default-language: Haskell2010
   ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N -O2
   build-depends:
-      base                >= 4.14   && < 5
-    , bytestring          >= 0.10   && < 0.13
-    , http-types          >= 0.12   && < 0.13
-    , text                >= 1.2    && < 2.2
-    , wai                 >= 3.2    && < 3.3
-    , wai-middleware-static >= 0.9  && < 0.10
-    , warp                >= 3.3    && < 3.5
-    , warp-tls            >= 3.3    && < 3.5
+    , base                   >=4.14 && <5
+    , bytestring             >=0.10 && <0.13
+    , directory              >=1.3  && <1.4
+    , http-types             >=0.12 && <0.13
+    , text                   >=1.2  && <2.2
+    , unordered-containers   >=0.2  && <0.3
+    , wai                    >=3.2  && <3.3
+    , wai-middleware-static  >=0.9  && <0.10
+    , warp                   >=3.3  && <3.5
+    , warp-tls               >=3.3  && <3.5

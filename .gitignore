@@ -1,3 +1,5 @@
 dist-newstyle/
+.hie/
+.ghc.environment.*
 abhinavsarkar-net-server.cabal
 *~

@@ -33,5 +33,7 @@ COPY --from=builder /etc/group /etc/group
 COPY --from=builder /usr/local/bin/hastatic /usr/bin/hastatic
 
 USER 1000:1000
-WORKDIR /srv
-CMD ["/usr/bin/hastatic"]
+EXPOSE 8080
+WORKDIR /var/www
+ENTRYPOINT ["/usr/bin/hastatic"]
+CMD []
