@@ -8,19 +8,25 @@ repo="$(sed -n 's/.*github.com\/\([^ ]*\)#readme.*/\1/p' hastatic.cabal)"
 registry="${REGISTRY:-docker.io}"
 image="${IMAGE:-${repo}}"
 platforms="${PLATFORMS:-linux/amd64,linux/arm64}"
+enable_tls="${ENABLE_TLS:-1}"
 
-ref="${registry}/${image}:${version}"
-latest="${registry}/${image}:latest"
+suffix=""
+if [[ "$enable_tls" != "1" ]]; then
+  suffix="notls-"
+fi
 
-PLATFORMS="$platforms" IMAGE="$image" ./scripts/build.sh
+ref="${registry}/${image}:${suffix}${version}"
+latest="${registry}/${image}:${suffix}latest"
 
-echo "Pushing manifest list ${ref}"
-podman manifest push --all "${image}:${version}" "${ref}"
+PLATFORMS="$platforms" IMAGE="$image" ENABLE_TLS="$enable_tls" ./scripts/build.sh
 
-echo "Pushing ${latest} manifest list"
-podman manifest push --all "${image}:${version}" "${latest}"
+echo "Pushing ${ref}"
+podman manifest push --all "${image}:${suffix}${version}" "${ref}"
+
+echo "Pushing ${latest}"
+podman manifest push --all "${image}:${suffix}${version}" "${latest}"
 
 echo "Done: ${ref}"
-podman manifest inspect "${registry}/${image}:${version}" | \
+podman manifest inspect "${ref}" | \
   sed -n 's/.*"architecture": "\(.*\)".*/\1/p' | sort -u | \
   while read -r arch; do echo "  - ${arch}"; done

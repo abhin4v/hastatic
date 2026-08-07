@@ -6,12 +6,16 @@ RUN apk add --no-cache upx \
 
 COPY hastatic.cabal cabal.project ./
 ARG TARGETARCH
+ARG ENABLE_TLS=1
 RUN arch="${TARGETARCH:-$(uname -m)}"; \
     icf=",--icf=all"; \
     case "$arch" in \
       amd64|x86_64) icf="" ;; \
     esac; \
-    cabal configure -O2 --enable-executable-static \
+    if [ "${ENABLE_TLS}" = "0" ]; then \
+      set -- -f-enableTLS --constraint="warp -x509"; \
+    fi; \
+    cabal configure "$@" -O2 --enable-executable-static \
         --ghc-option=-fPIC \
         --ghc-option=-split-sections \
         --ghc-option=-optl=-static \

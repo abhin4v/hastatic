@@ -4,7 +4,21 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 PORT="${TEST_PORT:-8080}"
-BIN="$(cabal -v0 list-bin exe:hastatic)"
+
+no_tls=""
+case "${1:-}" in
+  --no-tls) no_tls="-f-enableTLS" ;;
+  -h|--help)
+    echo "Usage: $0 [--no-tls]"
+    echo "  --no-tls   build and test the binary with TLS support disabled"
+    exit 0
+    ;;
+  "" ) ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+
+cabal build exe:hastatic $no_tls >/dev/null
+BIN="$(cabal -v0 list-bin exe:hastatic $no_tls)"
 
 work="$(mktemp -d)"
 cleanup() {

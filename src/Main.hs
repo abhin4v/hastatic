@@ -20,15 +20,17 @@ import Network.Wai.Handler.Warp
     setPort,
     setServerName,
   )
+#ifdef ENABLETLS
 import qualified Network.Wai.Handler.WarpTLS as TLS
+#endif
 import Network.Wai.Middleware.Static
 import Paths_hastatic (version)
 import System.Directory (doesDirectoryExist, doesFileExist)
 import System.Environment (lookupEnv)
+#ifdef ENABLETLS
 import System.Exit (die)
+#endif
 import Text.Read (readMaybe)
-
-data TLS = Okay FilePath FilePath | Error String | None
 
 data PathInfo = PathDir | PathFile | PathMissing
 
@@ -79,6 +81,9 @@ notFoundHandler :: FilePath -> Application
 notFoundHandler notFoundFile _ respond =
   respond . responseLBS status404 [("Content-Type", getMimeType notFoundFile)] =<< BL.readFile notFoundFile
 
+#ifdef ENABLETLS
+data TLS = Okay FilePath FilePath | Error String | None
+
 getTLSSettings :: IO TLS
 getTLSSettings = do
   tlsCertFile <- lookupEnv "TLS_CERT_FILE"
@@ -88,6 +93,7 @@ getTLSSettings = do
     (Nothing, Nothing) -> return None
     (Just cert, Just key) -> return $ Okay cert key
     _ -> return $ Error "Certificate file or Key file is missing"
+#endif
 
 application :: [FilePath] -> IO Application
 application excludedPaths = do
@@ -110,22 +116,26 @@ main :: IO ()
 main = do
   mPort <- lookupEnv "PORT"
   let port = fromMaybe 8080 (readMaybe =<< mPort)
-  tlsSettings <- getTLSSettings
   let settings =
         setPort port
           . setFdCacheDuration 10
           . setFileInfoCacheDuration 10
           . setServerName ("hastatic-" <> C8.pack (showVersion version))
           $ defaultSettings
-
+#ifdef ENABLETLS
+  tlsSettings <- getTLSSettings
   case tlsSettings of
     Okay certFile keyFile -> do
       app <- application [certFile, keyFile]
       putStrLn $ "Starting HTTPS server on port: " <> show port
       TLS.runTLS (TLS.tlsSettings certFile keyFile) settings app
-    None -> do
+    None -> startServer port settings
+    Error msg -> die $ "Error starting server: " <> msg
+#else
+  startServer port settings
+#endif
+  where
+    startServer port settings = do
       app <- application []
       putStrLn $ "Starting HTTP server on port: " <> show port
       runSettings settings app
-    Error msg ->
-      die $ "Error starting server: " <> msg

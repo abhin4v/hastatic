@@ -15,12 +15,18 @@ extra-source-files:
 description:
   Please see the README on GitHub at <https://github.com/abhin4v/hastatic#readme>
 
+flag enableTLS
+  description: Enable support for TLS/HTTPS via warp-tls
+  default:     True
+  manual:      True
+
 executable hastatic
-  main-is:          Main.hs
-  other-modules:    Paths_hastatic
-  hs-source-dirs:   src
-  default-language: Haskell2010
-  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N -O2
+  main-is:            Main.hs
+  other-modules:      Paths_hastatic
+  hs-source-dirs:     src
+  default-language:   Haskell2010
+  ghc-options:        -Wall -threaded -rtsopts -with-rtsopts=-N -O2
+  default-extensions: CPP
   build-depends:
     , base                   >=4.14 && <5
     , bytestring             >=0.10 && <0.13
@@ -31,4 +37,7 @@ executable hastatic
     , wai                    >=3.2  && <3.3
     , wai-middleware-static  >=0.9  && <0.10
     , warp                   >=3.3  && <3.5
-    , warp-tls               >=3.3  && <3.5
+
+  if flag(enabletls)
+    cpp-options:   -DENABLETLS
+    build-depends: warp-tls >=3.3 && <3.5
